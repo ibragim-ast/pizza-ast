@@ -4,6 +4,7 @@
 
 - JavaScript
 - React
+- Redux toolkit
 - HTML
 - SCSS
 - axios
