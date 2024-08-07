@@ -1,4 +1,3 @@
-import axios from "axios";
 import qs from "qs";
 import { useSelector, useDispatch } from "react-redux";
 import { useContext, useEffect, useState, useRef } from "react";
@@ -8,6 +7,7 @@ import {
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 import { useNavigate } from "react-router-dom";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -21,12 +21,12 @@ const Home = () => {
   const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
+  const items = useSelector((state) => state.pizza.items);
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
 
   const { searchValue } = useContext(SearchContext);
-  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const onChangeCategory = (id) => {
@@ -65,12 +65,10 @@ const Home = () => {
     }
 
     try {
-      setIsLoading(true);
-      const response = await axios.get(url);
-      setItems(response.data);
-      setIsLoading(false);
+      dispatch(fetchPizzas(url));
     } catch (error) {
       console.log("Ошибка при получении массива Пицц");
+    } finally {
       setIsLoading(false);
     }
     window.scrollTo(0, 0);
@@ -88,6 +86,7 @@ const Home = () => {
 
       isSearch.current = true;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -101,6 +100,7 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, searchValue, currentPage, sort.sortProperty]);
 
   useEffect(() => {
@@ -111,6 +111,7 @@ const Home = () => {
     }
 
     isSearch.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, searchValue, currentPage, sort.sortProperty]);
 
   const onChangePage = (number) => {
