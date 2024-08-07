@@ -1,6 +1,6 @@
 import qs from "qs";
 import { useSelector, useDispatch } from "react-redux";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { SearchContext } from "../App";
 import {
   setCategoryId,
@@ -21,13 +21,12 @@ const Home = () => {
   const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const items = useSelector((state) => state.pizza.items);
+  const { items, status } = useSelector((state) => state.pizza);
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
 
   const { searchValue } = useContext(SearchContext);
-  const [isLoading, setIsLoading] = useState(true);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -64,13 +63,7 @@ const Home = () => {
       url += `?${params.join("&")}`;
     }
 
-    try {
-      dispatch(fetchPizzas(url));
-    } catch (error) {
-      console.log("Ошибка при получении массива Пицц");
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(fetchPizzas(url));
     window.scrollTo(0, 0);
   };
 
@@ -104,6 +97,7 @@ const Home = () => {
   }, [categoryId, searchValue, currentPage, sort.sortProperty]);
 
   useEffect(() => {
+    getPizzas();
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
@@ -128,7 +122,20 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === "error" ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка</h2>
+          <p>
+            К сожалению жадный сервер, не отдает пиццы. Мы уже работаем над
+            этим, зайдите позже
+          </p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeletons : pizzas}
+        </div>
+      )}
+
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
