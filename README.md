@@ -29,5 +29,5 @@
 - CSS-Modules / SCSS (стилизация)
 - React Content Loader (скелетон)
 - React Pagination (пагинация)
-- Lodash.Debounce\
+- Lodash.Debounce
 - Code Splitting, React Loadable, useWhyDidYouUpdate
