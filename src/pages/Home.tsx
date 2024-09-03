@@ -62,7 +62,7 @@ const Home: React.FC = () => {
     if (params.length > 0) {
       url += `?${params.join("&")}`;
     }
-    // @ts-ignore
+
     dispatch(fetchPizzas(url));
     window.scrollTo(0, 0);
   };
