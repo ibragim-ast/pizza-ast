@@ -1,5 +1,5 @@
 import qs from "qs";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import React, { useEffect, useRef } from "react";
 import {
   selectFilter,
@@ -15,10 +15,11 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { sortList } from "../components/Sort";
+import { useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
@@ -69,13 +70,25 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(window.location.search.substring(1)) as {
+        categoryId?: string;
+        currentPage?: string;
+        searchValue?: string;
+        sortProperty?: string;
+      };
 
       const sort = sortList.find(
         (obj) => obj.sortProperty === params.sortProperty
       );
 
-      dispatch(setFilters({ ...params, sort }));
+      dispatch(
+        setFilters({
+          searchValue: params.searchValue || "",
+          categoryId: Number(params.categoryId) || 0,
+          currentPage: Number(params.currentPage) || 1,
+          sort: sort || { name: "популярности", sortProperty: "rating" }, // Установите значение по умолчанию
+        })
+      );
 
       isSearch.current = true;
     }
@@ -126,7 +139,7 @@ const Home: React.FC = () => {
         <div className="content__error-info">
           <h2>Произошла ошибка</h2>
           <p>
-            К сожалению жадный сервер, не отдает пиццы. Мы уже работаем над
+            К сожалению, жадный сервер не отдает пиццы. Мы уже работаем над
             этим, зайдите позже
           </p>
         </div>

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-type Sort = {
+export type Sort = {
   name: string;
-  sortProperty: "rating";
+  sortProperty: "rating" | "-rating" | "price" | "-price" | "title" | "-title";
 };
 interface FilterSliceState {
   searchValue: string;
