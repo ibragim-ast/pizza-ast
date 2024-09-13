@@ -6,6 +6,7 @@ import {
   setCategoryId,
   setCurrentPage,
   setFilters,
+  SortPropertyEnum,
 } from "../redux/slices/filterSlice";
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,11 +32,7 @@ const Home: React.FC = () => {
     dispatch(setCategoryId(idx));
   };
 
-  const pizzas = items.map((obj: any) => (
-    <Link key={obj.id} to={`/pizza/${obj.id}`}>
-      <PizzaBlock {...obj} />
-    </Link>
-  ));
+  const pizzas = items.map((obj: any) => <PizzaBlock {...obj} />);
   const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
   ));
@@ -53,7 +50,7 @@ const Home: React.FC = () => {
 
     params.push(`sortBy=${sortBy}`);
     params.push(`order=${order}`);
-    params.push(`limit=4`);
+    params.push(`limit=8`);
     params.push(`page=${currentPage}`);
 
     if (searchValue) {
@@ -86,7 +83,10 @@ const Home: React.FC = () => {
           searchValue: params.searchValue || "",
           categoryId: Number(params.categoryId) || 0,
           currentPage: Number(params.currentPage) || 1,
-          sort: sort || { name: "популярности", sortProperty: "rating" }, // Установите значение по умолчанию
+          sort: sort || {
+            name: "популярности",
+            sortProperty: SortPropertyEnum.RATING_DESC,
+          },
         })
       );
 

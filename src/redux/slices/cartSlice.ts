@@ -44,7 +44,6 @@ const cartSlice = createSlice({
       );
     },
     minusItem(state, action: PayloadAction<string>) {
-      console.log("Minus item:", action.payload);
       const findItem = state.items.find((obj) => obj.id === action.payload);
 
       if (findItem) {

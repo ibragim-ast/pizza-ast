@@ -10,7 +10,7 @@ type CartItemProps = {
   count: number;
   imageUrl: string;
 };
-const CartItem: React.FC<CartItemProps> = ({
+const CartItemBlock: React.FC<CartItemProps> = ({
   id,
   title,
   size,
@@ -37,7 +37,6 @@ const CartItem: React.FC<CartItemProps> = ({
   };
 
   const onClickMinus = () => {
-    console.log("deleting item:", id);
     dispatch(minusItem(id));
   };
 
@@ -129,4 +128,4 @@ const CartItem: React.FC<CartItemProps> = ({
   );
 };
 
-export default CartItem;
+export default CartItemBlock;
