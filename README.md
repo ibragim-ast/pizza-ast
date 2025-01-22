@@ -9,7 +9,7 @@
 - Взаимодействие с серверной частью, отправка запросов на бэкенд;
 - Навигация по странице без перезагрузки;
 - Глобальное хранилище данных для всего приложения (redux toolkit);
-- Строго типизированный код на TypeScript (в ближайших планах);
+- Строго типизированный код на TypeScript;
 - Использование LocalStorage для хранения настроек сайта;
 - Использование Lazy Loading (для ленивой подгрузки) + debounce (оптимизация для поиска пицц);
 - Оптимизированы перерисовки/ререндеры компонентов, code splitting (разделение кода на отдельные JS-файлы);
@@ -21,13 +21,13 @@
 
 - ReactJS 18
 - TypeScript
-- Redux Toolkit (хранение данных / пицц)
-- React Router v6 (навигация)
-- Axios + Fetch (отправка запроса на бэкенд)
-- React Hooks (хуки)
-- Prettier (форматирование кода)
-- CSS-Modules / SCSS (стилизация)
+- Redux Toolkit 
+- React Router v6 
+- Axios + Fetch 
+- React Hooks 
+- Prettier 
+- CSS-Modules / SCSS 
 - React Content Loader (скелетон)
-- React Pagination (пагинация)
+- React Pagination 
 - Lodash.Debounce
 - Code Splitting, React Loadable, useWhyDidYouUpdate
